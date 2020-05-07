@@ -2,11 +2,11 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just type end"
   students = []
-  name = gets.chomp
+  name = gets.gsub(/\n/,"")
   while name != "end"
     months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     puts "Which cohort are they in?"
-    cohort = gets.chomp
+    cohort = gets.gsub(/\n/,"")
     if cohort.empty? || !months.include?(cohort)
       cohort = "January"
     end
@@ -19,7 +19,7 @@ def input_students
     else
       puts "Now we have #{students.count} students"
     end
-    name = gets.chomp
+    name = gets.gsub(/\n/,"")
   end
   students
 end
