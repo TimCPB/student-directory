@@ -14,7 +14,11 @@ def input_students
       name = "Mystery Student"
     end
     students << {name: name, cohort: cohort.to_sym}
-    puts "Now we have #{students.count} students, please enter another name or type end to finish"
+    if students.count == 1
+      puts "Now we have 1 student"
+    else
+      puts "Now we have #{students.count} students"
+    end
     name = gets.chomp
   end
   students
