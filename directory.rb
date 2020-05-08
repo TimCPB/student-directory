@@ -16,9 +16,9 @@ def input_students
     end
     @students << {name: name, cohort: cohort.to_sym}
     if @students.count == 1
-      puts "Now we have 1 student"
+      puts "Now we have 1 student, enter another student or type end to finish"
     else
-      puts "Now we have #{@students.count} students"
+      puts "Now we have #{@students.count} students, enter another student or type end to finish"
     end
     name = gets.gsub(/\n/,"")
   end
@@ -60,27 +60,23 @@ def show_students
   print_students
   print_footer
 end
-def interactive_menu
-  
-  loop do
-    #1. print menu and ask user for input
-  print_menu
-  #2. read user input and save it to a variable
-  selection = gets.chomp
-  #3. do what the user has asked
+def process(selection)
   case selection
    when "1"
-    #inputs the students
     @students = input_students
    when "2"
-    #show the students
     show_students
    when "9"
-    exit #exit
+    exit
    else
     puts "I don't know what you mean, please try again"
   end
-  #4. go back to step 1
+end
+  
+def interactive_menu
+  loop do
+    print_menu
+    process(gets.chomp)
   end
 end
 
