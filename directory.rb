@@ -29,18 +29,20 @@ def print_header
     puts "-------------".center(50," ")
 end
 def print(students)
-  sorted_by_cohort = {}
-  students.each do |student|
+  if !students.empty?
+    sorted_by_cohort = {}
+    students.each do |student|
       cohort = student[:cohort]
-      name = student[:name]
-      if sorted_by_cohort[cohort] == nil
-        sorted_by_cohort[cohort] = [name]
-      else
-        sorted_by_cohort[cohort].push(name)
-      end
+        name = student[:name]
+        if sorted_by_cohort[cohort] == nil
+          sorted_by_cohort[cohort] = [name]
+        else
+          sorted_by_cohort[cohort].push(name)
+        end
   end
   sorted_by_cohort.each do |key, value_array|
     puts "#{key} cohort: #{value_array.join(", ")}".center(60," ")
+  end
   end
 end
 def print_footer(names)
