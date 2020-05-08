@@ -57,7 +57,7 @@ def print_menu
 end
 def show_students
   print_header
-  print_students
+  print_students_list
   print_footer
 end
 def process(selection)
