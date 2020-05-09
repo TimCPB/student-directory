@@ -78,12 +78,15 @@ def process(selection)
   case selection
   when "1"
     input_students
+    puts "You have added #{@students.count} students to the academy"
   when "2"
     show_students
   when "3"
     save_students
+    puts "You have saved #{@students.count} students to the file students.csv"
   when "4"
     load_students
+    puts "You have loaded #{@students.count} students from the file students.csv"
   when "9"
     exit # this will cause the program to terminate
   else
