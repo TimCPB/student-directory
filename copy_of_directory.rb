@@ -43,8 +43,7 @@ def save_students
   #iterate over the array of students
   @students.each do |student|
     student_data =[student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+    file.puts student_data.join(",")
   end
   file.close
 end

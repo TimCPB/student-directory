@@ -43,8 +43,7 @@ def save_students
   #iterate over the array of students
   @students.each do |student|
     student_data =[student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+    file.puts student_data.join(",")
   end
   file.close
 end
@@ -58,12 +57,9 @@ def load_students(filename = "students.csv")
   file.close
 end
 
-def try_load_students
-  filename = ARGV.first #first argument from the command line
-  if filename.nil? #gets us out of the method if no argument has been passed
-  #ie if the first element in the ARGV array has a value of nil
-  load_students("students.csv")
-  elsif File.exists?(filename) #check if the file being referenced actualyl exists
+def check_for_students_list
+  filename = ARGV.first.nil? ? "students.csv" : ARGV.first
+  if File.exists?(filename) #check if the file being referenced actualyl exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   else #if it doesn't exist
@@ -111,5 +107,5 @@ def print_footer
   puts "Overall, we have #{@students.count} great students".center(60," ")
 end
 
-try_load_students
+check_for_students_list
 interactive_menu
