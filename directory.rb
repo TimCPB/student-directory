@@ -60,9 +60,10 @@ end
 
 def try_load_students
   filename = ARGV.first #first argument from the command line
-  return if filename.nil? #gets us out of the method if no argument has been passed
+  if filename.nil? #gets us out of the method if no argument has been passed
   #ie if the first element in the ARGV array has a value of nil
-  if File.exists?(filename) #check if the file being referenced actualyl exists
+  load_students("students.csv")
+  elsif File.exists?(filename) #check if the file being referenced actualyl exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   else #if it doesn't exist
