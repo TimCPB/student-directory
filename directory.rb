@@ -39,7 +39,8 @@ end
 
 def save_students
   #open the file for writing, save it to the vaiable file, "w" for write mode
-  file = File.open("students.csv", "w")
+  puts "Please choose a name for the file in which you would like to save the list of students"
+  file = File.open(STDIN.gets.chomp, "w")
   #iterate over the array of students
   @students.each do |student|
     student_data =[student[:name], student[:cohort]]
@@ -49,6 +50,7 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
+  filename = File.exist?(filename) ? filename : "students.csv"
   file = File.open(filename, "r")
   file.readlines.each do |line|
     @name, @cohort = line.chomp.split(',')
@@ -83,10 +85,11 @@ def process(selection)
     show_students
   when "3"
     save_students
-    puts "You have saved #{@students.count} students to the file students.csv"
+    puts "You have saved #{@students.count} students"
   when "4"
-    load_students
-    puts "You have loaded #{@students.count} students from the file students.csv"
+    puts "Which file would you like to load the students from? If an invalid name is entered students from students.csv will be loaded"
+    load_students(STDIN.gets.chomp)
+    puts "You have successfully loaded students from your chosen file"
   when "9"
     exit # this will cause the program to terminate
   else
