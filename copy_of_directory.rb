@@ -44,14 +44,15 @@ def save_students
   #iterate over the array of students
   @students.each do |student|
     student_data =[student[:name], student[:cohort]]
-    File.write(filename, "#{student_data.join(",")}\n", mode: "a")
+    File.write(filename, "\n#{student_data.join(",")}", mode: "a")
   end
 end
 
 def load_students(filename = "students.csv")
   filename = File.exist?(filename) ? filename : "students.csv"
-  File.foreach(filename) do |line|
-    @name, @cohort = line.chomp.split(',')
+  require 'csv'
+  CSV.foreach(filename) do |line|
+    @name, @cohort = line
     add_to_students_array
   end
 end
