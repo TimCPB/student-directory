@@ -26,8 +26,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save your current list of students"
+  puts "4. Load a list of students"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -39,30 +39,26 @@ end
 
 def save_students
   #open the file for writing, save it to the vaiable file, "w" for write mode
-  file = File.open("students.csv", "w")
+  puts "Please choose a name for the file in which you would like to save the list of students"
+  filename = STDIN.gets.chomp
   #iterate over the array of students
   @students.each do |student|
     student_data =[student[:name], student[:cohort]]
-    file.puts student_data.join(",")
+    File.write(filename, "#{student_data.join(",")}\n", mode: "a")
   end
-  file.close
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
+  filename = File.exist?(filename) ? filename : "students.csv"
+  File.foreach(filename) do |line|
     @name, @cohort = line.chomp.split(',')
     add_to_students_array
   end
-  file.close
 end
 
-def try_load_students
-  filename = ARGV.first #first argument from the command line
-  if filename.nil? #gets us out of the method if no argument has been passed
-  #ie if the first element in the ARGV array has a value of nil
-    load_students("students.csv")
-  elsif File.exists?(filename) #check if the file being referenced actualyl exists
+def check_for_students_list
+  filename = ARGV.first.nil? ? "students.csv" : ARGV.first
+  if File.exists?(filename) #check if the file being referenced actualyl exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   else #if it doesn't exist
@@ -72,7 +68,7 @@ def try_load_students
 end
 
 def add_to_students_array
-  @students << {name: @name, cohort: @cohort.to_sym}
+  @students << {name: @name, cohort: @cohort}
 end
 
   
@@ -81,12 +77,16 @@ def process(selection)
   case selection
   when "1"
     input_students
+    puts "You have added #{@students.count} students to the academy"
   when "2"
     show_students
   when "3"
     save_students
+    puts "You have saved #{@students.count} students"
   when "4"
-    load_students
+    puts "Which file would you like to load the students from? If an invalid name is entered students from students.csv will be loaded"
+    load_students(STDIN.gets.chomp)
+    puts "You have successfully loaded students from your chosen file"
   when "9"
     exit # this will cause the program to terminate
   else
@@ -110,5 +110,5 @@ def print_footer
   puts "Overall, we have #{@students.count} great students".center(60," ")
 end
 
-try_load_students
+check_for_students_list
 interactive_menu

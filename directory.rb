@@ -26,8 +26,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save your current list of students"
+  puts "4. Load a list of students"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -40,23 +40,20 @@ end
 def save_students
   #open the file for writing, save it to the vaiable file, "w" for write mode
   puts "Please choose a name for the file in which you would like to save the list of students"
-  file = File.open(STDIN.gets.chomp, "w")
+  filename = STDIN.gets.chomp
   #iterate over the array of students
   @students.each do |student|
     student_data =[student[:name], student[:cohort]]
-    file.puts student_data.join(",")
+    File.write(filename, "\n#{student_data.join(",")}", mode: "a")
   end
-  file.close
 end
 
 def load_students(filename = "students.csv")
   filename = File.exist?(filename) ? filename : "students.csv"
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
+  File.foreach(filename) do |line|
     @name, @cohort = line.chomp.split(',')
     add_to_students_array
   end
-  file.close
 end
 
 def check_for_students_list
@@ -71,7 +68,7 @@ def check_for_students_list
 end
 
 def add_to_students_array
-  @students << {name: @name, cohort: @cohort.to_sym}
+  @students << {name: @name, cohort: @cohort}
 end
 
   
